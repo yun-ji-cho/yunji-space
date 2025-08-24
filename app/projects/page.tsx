@@ -1,9 +1,11 @@
 import Header from "@/components/Header";
-import ProjectCard from "@/components/ProjectCard";
-import { fetchProjects } from "@/lib/fetchProjects";
+import ProjectSection from "@/components/ProjectSection";
+import { fetchProjectsByCategory } from "@/lib/fetchProjects";
 
 export default async function Projects() {
-  const projects = await fetchProjects();
+  const mainProjects = await fetchProjectsByCategory("main");
+  const sideProjects = await fetchProjectsByCategory("side");
+  const otherProjects = await fetchProjectsByCategory("other");
 
   return (
     <>
@@ -11,28 +13,36 @@ export default async function Projects() {
 
       <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              My Projects
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              제가 작업한 프로젝트들입니다. 각각의 프로젝트는 새로운 도전과
-              학습의 경험이었습니다.
-            </p>
-          </div>
+          {/* Main Projects */}
+          <ProjectSection
+            title="Main Projects"
+            subtitle="제가 주도적으로 아키텍처 설계부터 컴포넌트 개발까지 책임졌던 프로젝트들입니다. 하나의 프로덕트를 온전히 구축하며 얻은 값진 경험과 기술적인 선택의 이유를 기록했습니다."
+            projects={mainProjects}
+            isCompact={false}
+            gridCols="md:grid-cols-2"
+          />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                title={project.title}
-                description={project.description}
-                icon={project.icon}
-                technologies={project.technologies}
-                gradient={project.gradient}
-              />
-            ))}
-          </div>
+          {/* Side Projects */}
+          {sideProjects.length > 0 && (
+            <ProjectSection
+              title="Side Projects"
+              subtitle="퍼블리셔에서 프론트엔드 개발자로의 전환을 이끌어준 프로젝트입니다. 새로운 기술에 대한 학습과 동료와의 협업 경험을 기록했습니다."
+              projects={sideProjects}
+              isCompact={true}
+              gridCols="md:grid-cols-2 lg:grid-cols-3"
+            />
+          )}
+
+          {/* Other Experience */}
+          {otherProjects.length > 0 && (
+            <ProjectSection
+              title="Additional Experience"
+              subtitle="견고한 마크업 구조, 웹 접근성, 반응형 UI에 대한 깊은 이해는 저를 더 나은 프론트엔드 개발자로 만들어주는 단단한 기반입니다."
+              projects={otherProjects}
+              isCompact={true}
+              gridCols="md:grid-cols-2 lg:grid-cols-3"
+            />
+          )}
         </div>
       </div>
     </>

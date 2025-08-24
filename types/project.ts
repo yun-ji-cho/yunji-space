@@ -8,6 +8,12 @@ export interface Project {
   link?: string;
   github?: string;
   featured?: boolean;
+  category: "main" | "side" | "other";
+  role?: string;
+  achievements?: string[];
+  learnings?: string[];
+  hasDetailPage?: boolean;
+  imagePath?: string;
 }
 
 export interface ContactForm {
