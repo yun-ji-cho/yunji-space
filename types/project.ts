@@ -14,6 +14,47 @@ export interface Project {
   learnings?: string[];
   hasDetailPage?: boolean;
   imagePath?: string;
+  // 상세도 레벨 (1: 간단, 2: 보통, 3: 상세)
+  detailLevel?: 1 | 2 | 3;
+  // 새로운 상세 정보 필드들
+  detailedWork?: {
+    title: string;
+    description: string;
+    color: string;
+    // 모달용 상세 정보
+    details?: string;
+    challenges?: string[];
+    solutions?: string[];
+    codeSnippets?: {
+      title: string;
+      code: string;
+      language: string;
+    }[];
+  }[];
+  technicalChallenges?: {
+    title: string;
+    description: string;
+    solution: string;
+    color: string;
+  }[];
+  // 기술적 의사결정 과정
+  technicalDecisions?: {
+    title: string;
+    problem: string;
+    alternatives: string[];
+    chosenSolution: string;
+    reasoning: string;
+    outcome: string;
+  }[];
+  codeSnippets?: {
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  }[];
+  projectDuration?: string;
+  teamSize?: string;
+  screenshots?: string[];
 }
 
 export interface ContactForm {
