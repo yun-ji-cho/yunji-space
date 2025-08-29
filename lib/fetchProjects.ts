@@ -33,7 +33,7 @@ export async function fetchProjects(): Promise<Project[]> {
         "팀 협업과 코드 리뷰 프로세스",
       ],
       hasDetailPage: true,
-      imagePath: "/images/projects/consulting-call.png",
+      imagePath: "/images/projects/project_img_1.png",
     },
     {
       id: "2",
@@ -64,7 +64,7 @@ export async function fetchProjects(): Promise<Project[]> {
         "사용자 중심의 UI/UX 설계",
       ],
       hasDetailPage: true,
-      imagePath: "/images/projects/heydeer.png",
+      imagePath: "/images/projects/project_img_2.png",
     },
     // Side Projects
     {
