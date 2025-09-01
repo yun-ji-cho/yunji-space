@@ -19,6 +19,27 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedWork, setSelectedWork] = useState<any>(null);
 
+  // 색상 매핑 함수
+  const getBorderColorClass = (color: string) => {
+    const colorMap: { [key: string]: string } = {
+      blue: "border-blue-500",
+      green: "border-green-500",
+      purple: "border-purple-500",
+      orange: "border-orange-500",
+      red: "border-red-500",
+      indigo: "border-indigo-500",
+      emerald: "border-emerald-500",
+      cyan: "border-cyan-500",
+      violet: "border-violet-500",
+      amber: "border-amber-500",
+      rose: "border-rose-500",
+      teal: "border-teal-500",
+      fuchsia: "border-fuchsia-500",
+      lime: "border-lime-500",
+    };
+    return colorMap[color] || "border-gray-500";
+  };
+
   useEffect(() => {
     const loadProject = async () => {
       const projects = await fetchProjects();
@@ -45,7 +66,19 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   };
 
   if (!project) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-24">
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+              <p className="text-gray-600 text-lg">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
   }
 
   return (
@@ -131,7 +164,10 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  🔗 사이트 보기
+                  🔗{" "}
+                  {project.category === "side"
+                    ? "프로젝트 소개"
+                    : "사이트 보기"}
                 </a>
               )}
               {project.github && (
@@ -164,19 +200,31 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
             </div>
           )}
 
-          {/* Detailed Work Sections - Level 2+ */}
+          {/* Introduction + Detailed Work Section - Level 2+ */}
           {project.detailLevel && project.detailLevel >= 2 && (
             <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <span className="mr-2">📋</span>
                 담당 업무 상세
               </h2>
+              {project.introduction && (
+                <div className="bg-blue-50 border-l-4 border-blue-500 pl-6 py-4 rounded-r-lg mb-6">
+                  <h3 className="text-lg font-semibold text-blue-900 mb-3">
+                    프로젝트 리더로서의 역할과 문제 해결 과정
+                  </h3>
+                  <p className="text-blue-800 leading-relaxed">
+                    {project.introduction}
+                  </p>
+                </div>
+              )}
               <div className="grid gap-4">
                 {project.detailedWork ? (
                   project.detailedWork.map((work, index) => (
                     <div
                       key={index}
-                      className={`border-l-4 border-${work.color}-500 pl-4 p-4 rounded-r-lg hover:bg-gray-50 cursor-pointer transition-colors`}
+                      className={`border-l-4 ${getBorderColorClass(
+                        work.color
+                      )} pl-4 p-4 rounded-r-lg hover:bg-gray-50 cursor-pointer transition-colors`}
                       onClick={() => handleWorkClick(work)}
                     >
                       <div className="flex items-center justify-between">

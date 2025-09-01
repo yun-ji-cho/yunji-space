@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface WorkDetail {
   title: string;
@@ -24,13 +24,27 @@ export default function WorkDetailModal({
   onClose,
   workDetail,
 }: WorkDetailModalProps) {
+  // 모달이 열렸을 때 배경 스크롤 방지
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트가 언마운트될 때 스크롤 복원
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   if (!isOpen || !workDetail) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] flex flex-col">
+        {/* Fixed Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white rounded-t-xl">
           <h2 className="text-2xl font-bold text-gray-900">
             {workDetail.title}
           </h2>
@@ -54,8 +68,8 @@ export default function WorkDetailModal({
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-6">
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Description */}
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -132,8 +146,8 @@ export default function WorkDetailModal({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex justify-end p-6 border-t border-gray-200">
+        {/* Fixed Footer */}
+        <div className="flex justify-end p-6 border-t border-gray-200 bg-white rounded-b-xl">
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"

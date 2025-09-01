@@ -17,7 +17,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Side - Profile Image */}
-              <div className="flex justify-center lg:justify-start">
+              <div className="flex justify-center lg:justify-start pt-[80px]">
                 <div className="relative">
                   <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 p-1">
                     <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -67,8 +67,6 @@ export default function Home() {
 
                 {/* Social Media Links */}
                 <div className="flex items-center justify-center lg:justify-start gap-4">
-                  <div className="w-px h-8 bg-gray-300"></div>
-
                   <Link
                     href="https://github.com"
                     className="p-2 rounded-lg bg-white/50 hover:bg-white/80 transition-colors"

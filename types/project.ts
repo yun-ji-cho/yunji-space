@@ -10,6 +10,7 @@ export interface Project {
   featured?: boolean;
   category: "main" | "side" | "other";
   role?: string;
+  introduction?: string;
   achievements?: string[];
   learnings?: string[];
   hasDetailPage?: boolean;
@@ -27,6 +28,7 @@ export interface Project {
     solutions?: string[];
     codeSnippets?: {
       title: string;
+      description?: string;
       code: string;
       language: string;
     }[];

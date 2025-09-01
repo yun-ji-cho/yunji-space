@@ -1,4 +1,12 @@
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Clock,
+  Code,
+  Calendar,
+  MessageCircle,
+  Phone,
+} from "lucide-react";
 import Header from "@/components/Header";
 
 export default function Contact() {
@@ -6,22 +14,23 @@ export default function Contact() {
     <>
       <Header />
 
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
               연락하기
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              새로운 도전과 성장의 기회를 찾고 있습니다. 함께 성장할 수 있는
-              팀에서 일하고 싶습니다.
+              새로운 도전과 성장의 기회를 찾고 있습니다. <br />
+              함께 성장할 수 있는 팀에서 일하고 싶습니다.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* 연락처 정보 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Mail className="w-6 h-6 mr-2 text-purple-600" />
                 연락처 정보
               </h2>
 
@@ -32,134 +41,183 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">이메일</h3>
-                    <p className="text-gray-600">pplusmessage@gmail.com</p>
+                    <a
+                      href="mailto:pplusmessage@gmail.com?subject=포트폴리오 문의&body=안녕하세요, 포트폴리오를 보고 연락드립니다."
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      pplusmessage@gmail.com
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-green-600" />
+                    <Phone className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">위치</h3>
-                    <p className="text-gray-600">경기도 광명시</p>
+                    <h3 className="font-semibold text-gray-900">전화</h3>
+                    <a
+                      href="tel:010-8454-4456"
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      010-8454-4456
+                    </a>
                   </div>
-                </div>
-              </div>
-
-              <div className="pt-6">
-                <h3 className="font-semibold text-gray-900 mb-4">
-                  관심 있는 포지션:
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm">
-                    프론트엔드 개발자
-                  </span>
-                  <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm">
-                    React 개발자
-                  </span>
-                  <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm">
-                    웹 개발자
-                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Contact Form */}
+            {/* 현재 상황 */}
             <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                메시지 보내기
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Calendar className="w-6 h-6 mr-2 text-blue-600" />
+                현재 상황
               </h2>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <span className="text-gray-700">이직 준비 중</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                  <span className="text-gray-700">
+                    새로운 기회를 찾고 있습니다
+                  </span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                  <span className="text-gray-700">최소 1개월 후 입사 가능</span>
+                </div>
+              </div>
+            </div>
 
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="firstName"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                    >
-                      이름
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="홍길동"
-                    />
+            {/* 관심 있는 분야 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Code className="w-6 h-6 mr-2 text-green-600" />
+                관심 있는 분야
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm">
+                  프론트엔드 개발자
+                </span>
+                <span className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm">
+                  React 개발자
+                </span>
+                <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm">
+                  웹 개발자
+                </span>
+              </div>
+            </div>
+
+            {/* 주요 기술 스택 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Code className="w-6 h-6 mr-2 text-indigo-600" />
+                주요 기술 스택
+              </h2>
+              <div className="space-y-3">
+                <div>
+                  <span className="text-sm font-medium text-gray-600">
+                    Frontend
+                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                      React
+                    </span>
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                      TypeScript
+                    </span>
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                      Emotion
+                    </span>
+                    <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs">
+                      Tailwind CSS
+                    </span>
                   </div>
-                  <div>
-                    <label
-                      htmlFor="lastName"
-                      className="block text-sm font-medium text-gray-700 mb-2"
-                    >
-                      성
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      placeholder="김"
-                    />
+                </div>
+                <div>
+                  <span className="text-sm font-medium text-gray-600">
+                    State Management
+                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">
+                      Zustand
+                    </span>
+                    <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs">
+                      TanStack Query
+                    </span>
                   </div>
                 </div>
-
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    이메일
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="example@email.com"
-                  />
+                  <span className="text-sm font-medium text-gray-600">
+                    Tools
+                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                      Git
+                    </span>
+                    <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                      Vite
+                    </span>
+                    <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                      ESLint
+                    </span>
+                  </div>
                 </div>
+              </div>
+            </div>
 
+            {/* 경험 년수 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <Calendar className="w-6 h-6 mr-2 text-orange-600" />
+                경험 년수
+              </h2>
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-600 mb-2">
+                    4-5년
+                  </div>
+                  <p className="text-gray-600">프론트엔드 개발 경험</p>
+                </div>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <p>• 퍼블리셔에서 프론트엔드 개발자로 전환</p>
+                  <p>• React 기반 웹 애플리케이션 개발</p>
+                  <p>• 대규모 프로젝트 아키텍처 설계 경험</p>
+                </div>
+              </div>
+            </div>
+
+            {/* 선호하는 연락 방식 & 응답 시간 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
+                <MessageCircle className="w-6 h-6 mr-2 text-pink-600" />
+                연락 방식 & 응답 시간
+              </h2>
+              <div className="space-y-6">
                 <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    제목
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="이직 제안"
-                  />
+                  <h3 className="font-semibold text-gray-900 mb-3">
+                    선호하는 연락 방식
+                  </h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-3">
+                      <Phone className="w-4 h-4 text-green-600" />
+                      <span className="text-gray-700">전화</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <Mail className="w-4 h-4 text-purple-600" />
+                      <span className="text-gray-700">이메일</span>
+                    </div>
+                  </div>
                 </div>
-
                 <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    메시지
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                    placeholder="회사와 포지션에 대해 알려주세요..."
-                  ></textarea>
+                  <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
+                    <Clock className="w-4 h-4 mr-2 text-green-600" />
+                    응답 시간
+                  </h3>
+                  <p className="text-gray-700">보통 24시간 내에 답변드립니다</p>
                 </div>
-
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                >
-                  <Send className="w-5 h-5" />
-                  메시지 보내기
-                </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
