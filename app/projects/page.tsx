@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
 import ProjectSection from "@/components/ProjectSection";
-import { fetchProjectsByCategory } from "@/lib/fetchProjects";
+import { getProjectsByCategory } from "@/lib/projects";
 
-export default async function Projects() {
-  const mainProjects = await fetchProjectsByCategory("main");
-  const sideProjects = await fetchProjectsByCategory("side");
-  const otherProjects = await fetchProjectsByCategory("other");
+export default function Projects() {
+  const mainProjects = getProjectsByCategory("main");
+  const sideProjects = getProjectsByCategory("side");
+  const otherProjects = getProjectsByCategory("other");
 
   return (
     <>

@@ -1,11 +1,11 @@
 "use client";
 
-import Header from "@/components/Header";
-import { fetchProjects } from "@/lib/fetchProjects";
+import { useState, useEffect } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import Header from "@/components/Header";
 import WorkDetailModal from "@/components/WorkDetailModal";
+import { getProjects } from "@/lib/projects";
 import { Project } from "@/types/project";
 
 interface ProjectDetailPageProps {
@@ -41,8 +41,8 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   };
 
   useEffect(() => {
-    const loadProject = async () => {
-      const projects = await fetchProjects();
+    const loadProject = () => {
+      const projects = getProjects();
       const foundProject = projects.find((p) => p.id === params.id);
 
       if (!foundProject || foundProject.category !== "main") {
