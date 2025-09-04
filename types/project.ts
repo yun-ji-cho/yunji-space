@@ -1,3 +1,20 @@
+// DetailedWork 타입 별도 정의
+export interface DetailedWork {
+  title: string;
+  description: string;
+  color: string;
+  // 모달용 상세 정보
+  details?: string;
+  challenges?: string[];
+  solutions?: string[];
+  codeSnippets?: {
+    title: string;
+    description?: string;
+    code: string;
+    language: string;
+  }[];
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -18,21 +35,7 @@ export interface Project {
   // 상세도 레벨 (1: 간단, 2: 보통, 3: 상세)
   detailLevel?: 1 | 2 | 3;
   // 새로운 상세 정보 필드들
-  detailedWork?: {
-    title: string;
-    description: string;
-    color: string;
-    // 모달용 상세 정보
-    details?: string;
-    challenges?: string[];
-    solutions?: string[];
-    codeSnippets?: {
-      title: string;
-      description?: string;
-      code: string;
-      language: string;
-    }[];
-  }[];
+  detailedWork?: DetailedWork[];
   technicalChallenges?: {
     title: string;
     description: string;

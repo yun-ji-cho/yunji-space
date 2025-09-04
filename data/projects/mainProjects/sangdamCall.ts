@@ -10,7 +10,7 @@ export const sangdamCallProject: Project = {
     "React",
     "TypeScript",
     "Zustand",
-    "TanStack Query",
+    "React Query",
     "Tailwind(shadcn/ui)",
   ],
   gradient: "bg-gradient-to-br from-blue-400 to-purple-400",
@@ -62,7 +62,7 @@ export const sangdamCallProject: Project = {
           description:
             "react-query의 useInfiniteQuery와 Intersection Observer를 결합하여 통화 목록 데이터 페칭과 무한 스크롤 로직을 캡슐화",
           code: `import { useEffect, useRef } from 'react';
-          import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getCallListAPI } from '@apis/consulting';
 

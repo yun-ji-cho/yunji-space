@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { Mail, ExternalLink, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -13,7 +13,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%221%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
 
         {/* Main Content */}
-        <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8">
+        <main
+          id="main-content"
+          className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 lg:px-8"
+        >
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               {/* Left Side - Profile Image */}
@@ -90,7 +93,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </>
   );

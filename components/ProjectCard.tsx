@@ -1,6 +1,7 @@
-import { Project } from "@/types/project";
 import Image from "next/image";
 import Link from "next/link";
+import { ExternalLink, Github } from "lucide-react";
+import { renderIcon } from "@/utils/iconUtils";
 
 interface ProjectCardProps {
   title: string;
@@ -64,7 +65,13 @@ export default function ProjectCard({
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <span className={isCompact ? "text-3xl" : "text-4xl"}>{icon}</span>
+            <div className={isCompact ? "text-3xl" : "text-4xl"}>
+              {renderIcon({
+                name: icon,
+                size: isCompact ? 32 : 48,
+                className: "text-white",
+              })}
+            </div>
           )}
         </div>
         <h3 className={titleClasses}>{title}</h3>
@@ -93,9 +100,10 @@ export default function ProjectCard({
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200"
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200 flex items-center"
             >
-              🔗 {category === "side" ? "프로젝트 소개" : "사이트 보기"}
+              <ExternalLink size={16} className="mr-1" />
+              {category === "side" ? "프로젝트 소개" : "사이트 보기"}
             </a>
           )}
           {github && (
@@ -103,9 +111,10 @@ export default function ProjectCard({
               href={github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors duration-200"
+              className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors duration-200 flex items-center"
             >
-              📁 GitHub
+              <Github size={16} className="mr-1" />
+              GitHub
             </a>
           )}
         </div>

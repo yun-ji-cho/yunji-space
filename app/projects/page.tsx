@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import PageLayout from "@/components/layout/PageLayout";
 import ProjectSection from "@/components/ProjectSection";
 import { getProjectsByCategory } from "@/lib/projects";
 
@@ -8,10 +8,7 @@ export default function Projects() {
   const otherProjects = getProjectsByCategory("other");
 
   return (
-    <>
-      <Header />
-
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-16">
+    <PageLayout>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Main Projects */}
           <ProjectSection
@@ -44,7 +41,6 @@ export default function Projects() {
             />
           )}
         </div>
-      </div>
-    </>
+    </PageLayout>
   );
 }

@@ -5,7 +5,7 @@ export const heyThereProject: Project = {
   title: "Hey-there ver1.0",
   description:
     "유지보수가 불가능했던 기존 코드의 기술 부채를 해결하고 사용자 경험(UX)을 개선한 Hey-there 리뉴얼 프로젝트",
-  icon: "💇‍♀️",
+  icon: "👋",
   technologies: [
     "React",
     "TypeScript",
