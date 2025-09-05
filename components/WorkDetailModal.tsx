@@ -2,11 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { DetailedWork } from "@/types/project";
 import {
   FileText,
-  File,
   AlertTriangle,
-  Check,
   Monitor,
   Lightbulb,
+  Info,
 } from "lucide-react";
 
 interface WorkDetailModalProps {
@@ -130,7 +129,7 @@ export default function WorkDetailModal({
             {/* 작업 개요 */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                <FileText className="mr-2 w-5 h-5 text-blue-600" />
+                <Info className="mr-2 w-5 h-5 text-purple-600" />
                 작업 개요
               </h3>
               <p className="text-gray-700 whitespace-pre-line">
@@ -142,7 +141,7 @@ export default function WorkDetailModal({
             {workDetail.details && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <File className="mr-2 w-5 h-5 text-purple-600" />
+                  <FileText className="mr-2 w-5 h-5 text-blue-600" />
                   상세 내용
                 </h3>
                 <div className="bg-gray-50 rounded-lg p-4">

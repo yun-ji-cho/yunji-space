@@ -122,8 +122,7 @@ observerRef,
 
 • 빠른 데이터 조회 및 관리: 서버 사이드 처리 기반의 필터링, 정렬, 페이지네이션 기능을 구현하여 수만 건의 데이터도 지연 없이 관리합니다.
 • 사용자 컨텍스트 보존: 상세 페이지 진입 후 '뒤로가기' 시, 이전에 설정했던 필터, 정렬, 스크롤 위치를 완벽하게 복원합니다.
-• 안전한 정보 수정: 고객 정보 수정 시, 변경된 내용이 있을 때만 '저장' 버튼이 활성화되는 'Dirty State' 감지 기능을 적용했습니다.
-• 향상된 관리 효율: 다중 선택 후 일괄 처리 및 비밀번호로 보호된 엑셀 다운로드 등 고급 기능을 구현했습니다.`,
+• 안전한 정보 수정: 고객 정보 수정 시, 변경된 내용이 있을 때만 '저장' 버튼이 활성화되는 'Dirty State' 감지 기능을 적용했습니다.`,
       challenges: [
         "대용량 데이터 렌더링 성능: 수만 건의 데이터를 클라이언트에서 처리할 때 발생하는 초기 로딩 지연 및 브라우저 과부하 문제.",
         "파편화된 사용자 경험: 페이지 이동 시 검색 조건이 초기화되어 사용자의 작업 흐름이 끊기는 문제.",
@@ -131,8 +130,107 @@ observerRef,
       ],
       solutions: [
         "서버 중심 아키텍처 최적화: 기존 서버 사이드 처리 방식에 맞춰, 복잡한 필터/정렬 상태를 API 파라미터로 변환하고 응답에 따라 UI를 지연 없이 갱신하는 프론트엔드 데이터 흐름을 책임지고 구현했습니다.",
-        "location.state를 활용한 컨텍스트 보존: react-router의 location.state를 활용하여 페이지 이동 후에도 이전 컨텍스트를 복원함으로써, 파편화된 사용자 경험 문제를 해결했습니다.",
-        "Custom Hook 기반 로직 추상화: useCustomerInfoForm 커스텀 훅을 설계하여 복잡한 폼 상태 관리 로직(Dirty State 감지 등)을 UI로부터 완전히 분리, 코드의 결합도를 낮추고 유지보수성을 향상시켰습니다.",
+        "URL 쿼리 파라미터와 sessionStorage를 조합을 활용한 컨텍스트 보존: 필터 상태는 공유 및 새로고침 시에도 유지되도록, 스크롤 위치는 개인화되어 복원되는 끊김 없는 탐색 경험을 구현했습니다.",
+        "Custom Hook 기반 로직 추상화: UserProfileForm 커스텀 훅을 설계하여 복잡한 폼 상태 관리 로직(Dirty State 감지 등)을 UI로부터 완전히 분리, 코드의 결합도를 낮추고 유지보수성을 향상시켰습니다.",
+      ],
+      codeSnippets: [
+        {
+          title: "고객 정보 수정시 Dirty state 감지",
+          description:
+            "고객 정보 수정 시, 변경된 내용이 있을 때만 '저장' 버튼이 활성화되는 'Dirty State' 감지 기능을 적용했습니다.",
+          code: `// hooks/UserProfileForm.ts
+  import { useState, useEffect, useCallback, useRef } from "react";
+
+  export function UserProfileForm(userData) {
+    const [formData, setFormData] = useState(() => getInitialFormData(userData));
+    const [isDirty, setIsDirty] = useState(false);
+
+    // 🔑 핵심: useRef로 초기값을 한 번만 저장하여 불필요한 재계산 방지
+    const initialDataRef = useRef(getInitialFormData(userData));
+
+    // userData 변경 시 초기값도 함께 업데이트
+    useEffect(() => {
+      if (userData) {
+        const newInitialData = getInitialFormData(userData);
+        setFormData(newInitialData);
+        initialDataRef.current = newInitialData; // 참조값 업데이트
+      }
+    }, [userData]);
+
+    // 🔑 핵심: 실시간 Dirty State 감지 로직
+    useEffect(() => {
+      const initialData = initialDataRef.current;
+
+      const hasChanged = Object.keys(formData).some((key) => {
+        const currentValue = formData[key];
+        const initialValue = initialData[key];
+
+        // 🔑 특별 처리: Date 객체 비교 최적화
+        if (key === "birthDate") {
+          if (!currentValue && !initialValue) return false;
+          if (!currentValue || !initialValue) return true;
+
+          // Date를 YYYY-MM-DD 문자열로 변환하여 날짜만 비교
+          const currentDateStr = \`${"${"}currentValue.getFullYear(){'}'}-${"${"}String(
+            currentValue.getMonth() + 1
+          ).padStart(2, "0"){'}'}-${"${"}String(currentValue.getDate()).padStart(2, "0"){'}'}\`;
+
+          const initialDateStr = \`${"${"}initialValue.getFullYear(){'}'}-${"${"}String(
+            initialValue.getMonth() + 1
+          ).padStart(2, "0"){'}'}-${"${"}String(initialValue.getDate()).padStart(2, "0"){'}'}\`;
+
+          return currentDateStr !== initialDateStr;
+        }
+
+        // 일반 필드는 직접 값 비교
+        return currentValue !== initialValue;
+      });
+
+      setIsDirty(hasChanged);
+    }, [formData]); // formData 변경시에만 실행
+
+    return { formData, setFormData, isDirty, /* ... */ };
+  }
+
+  3. UI 적용 코드
+
+  // components/CustomerInfoForm.tsx
+  export const CustomerInfoForm = ({ userData }) => {
+    const { formData, isDirty, handleInputChange } =
+  UserProfileForm(userData);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 저장 로직
+  };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        {/* 폼 필드들 */}
+        <Input
+          value={formData.email}
+          onChange={(e) => handleInputChange("email", e.target.value)}
+        />
+
+        {/* ... 다른 폼 필드들 ... */}
+
+        {/* 🔑 핵심: Dirty State 기반 버튼 활성화 */}
+        <Button
+          type="submit"
+          disabled={!isDirty}
+          className={cn(
+            isDirty
+              ? "bg-green-600 hover:bg-green-700 text-white"
+              : "bg-gray-100 text-gray-400 cursor-not-allowed"
+          )}
+        >
+          수정
+        </Button>
+      </form>
+    );
+  };`,
+          language: "typescript",
+        },
       ],
     },
     {
