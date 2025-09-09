@@ -1,86 +1,180 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import * as motion from "motion/react-client";
+
+import Path from "@/components/ui/Path";
+import { menuItems } from "@/data/menus";
+import { itemVariants, revealVariants } from "@/lib/animation";
+import { useScroll } from "@/hooks/useScroll";
+import useMobileMenu from "@/hooks/useMobileMenu";
+import { ACCESSIBILITY, ANIMATION, COLORS } from "@/constants";
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  // 네비게이션 메뉴 아이템 배열로 관리
-  const menuItems = [
-    { href: "/", label: "Home" },
-    { href: "/projects", label: "Projects" },
-    { href: "/contact", label: "Contact" },
-  ];
+  const {
+    toggleMobileMenu,
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+    closeMobileMenu,
+  } = useMobileMenu();
+  const { isScrolled } = useScroll({
+    onResize: (width) => {
+      if (width >= ANIMATION.BREAKPOINTS.MD && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    },
+  });
 
   return (
     <>
       {/* Skip Navigation Link - 포커스 시에만 보임 */}
       <a
-        href="#main-content"
+        href={ACCESSIBILITY.SKIP_NAVIGATION.HREF}
         className="fixed top-0 left-4 transform -translate-y-full focus:translate-y-4 focus:z-[100] 
-                   bg-purple-600 text-white px-6 py-3 rounded-lg font-medium shadow-lg
-                   focus:outline-none focus:ring-4 focus:ring-purple-300 
+                   text-white px-6 py-3 rounded-lg font-medium shadow-lg
+                   focus:outline-none focus:ring-4 
                    transition-all duration-200"
+        style={
+          {
+            backgroundColor: COLORS.BACKGROUND.SKIP_NAVIGATION,
+            "--tw-ring-color": COLORS.FOCUS_RING.SKIP_NAVIGATION,
+          } as React.CSSProperties
+        }
       >
-        메인 콘텐츠로 건너뛰기
+        {ACCESSIBILITY.SKIP_NAVIGATION.TEXT}
       </a>
-      
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
-          >
-            Yunji Space
-          </Link>
-          <nav
-            className={`${
-              isMobileMenuOpen
-                ? "absolute top-16 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200/50 md:static md:bg-transparent md:border-0"
-                : "hidden md:flex"
-            } md:relative md:top-0 md:flex md:items-center`}
-            role="navigation"
-            aria-label="주 메뉴"
-          >
-            <div className="flex flex-col md:flex-row md:items-center md:space-x-8 px-4 py-4 md:p-0">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          backgroundColor: isScrolled
+            ? COLORS.BACKGROUND.HEADER_SCROLLED
+            : "transparent",
+          borderBottom: isScrolled
+            ? `1px solid ${COLORS.BORDER.HEADER}`
+            : "none",
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent transition-all duration-300"
+              style={{
+                backgroundImage: `linear-gradient(to right, ${COLORS.GRADIENT.LOGO.FROM}, ${COLORS.GRADIENT.LOGO.TO})`,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundImage = `linear-gradient(to right, ${COLORS.GRADIENT.LOGO.HOVER_FROM}, ${COLORS.GRADIENT.LOGO.HOVER_TO})`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundImage = `linear-gradient(to right, ${COLORS.GRADIENT.LOGO.FROM}, ${COLORS.GRADIENT.LOGO.TO})`;
+              }}
+            >
+              Yunji Space
+            </Link>
+            <nav className="hidden md:flex md:items-center md:space-x-8">
               {menuItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block py-2 md:py-0 text-gray-700 hover:text-purple-600 transition-colors font-medium"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="py-2 text-black/70 hover:text-purple-600 font-medium"
                 >
                   {item.label}
                 </Link>
               ))}
-            </div>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-            aria-label={isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
-            aria-expanded={isMobileMenuOpen}
-            aria-controls="navigation"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-5 h-5 text-gray-700" />
-            ) : (
-              <Menu className="w-5 h-5 text-gray-700" />
-            )}
-          </button>
+            </nav>
+            <button
+              onClick={toggleMobileMenu}
+              className="md:hidden z-50 p-2 rounded-full"
+              aria-label={
+                isMobileMenuOpen
+                  ? ACCESSIBILITY.ARIA_LABELS.MOBILE_MENU_CLOSE
+                  : ACCESSIBILITY.ARIA_LABELS.MOBILE_MENU_OPEN
+              }
+            >
+              <svg width="23" height="23" viewBox="0 0 23 23">
+                {/* SVG 아이콘 Path 색상 변경 */}
+                <Path
+                  stroke={COLORS.TEXT.PRIMARY}
+                  variants={{
+                    closed: { d: "M 2 2.5 L 20 2.5" },
+                    open: { d: "M 3 16.5 L 17 2.5" },
+                  }}
+                  initial="closed"
+                  animate={isMobileMenuOpen ? "open" : "closed"}
+                />
+                <Path
+                  stroke={COLORS.TEXT.PRIMARY}
+                  d="M 2 9.423 L 20 9.423"
+                  variants={{ closed: { opacity: 1 }, open: { opacity: 0 } }}
+                  transition={{ duration: 0.1 }}
+                  initial="closed"
+                  animate={isMobileMenuOpen ? "open" : "closed"}
+                />
+                <Path
+                  stroke={COLORS.TEXT.PRIMARY}
+                  variants={{
+                    closed: { d: "M 2 16.346 L 20 16.346" },
+                    open: { d: "M 3 2.5 L 17 16.346" },
+                  }}
+                  initial="closed"
+                  animate={isMobileMenuOpen ? "open" : "closed"}
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </header>
+
+      {isMobileMenuOpen && (
+        // 👇 2. nav 컴포넌트에 새로운 variants를 적용하고, 불필요한 className 제거
+        <motion.nav
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={revealVariants}
+          className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-40"
+          style={{ backgroundColor: COLORS.BACKGROUND.MOBILE_MENU }}
+          aria-hidden={!isMobileMenuOpen}
+        >
+          <motion.ul
+            variants={{
+              open: {
+                transition: {
+                  staggerChildren: ANIMATION.MOBILE_MENU.STAGGER.CHILDREN_DELAY,
+                  delayChildren: ANIMATION.MOBILE_MENU.STAGGER.DELAY_CHILDREN,
+                },
+              },
+              closed: {
+                transition: {
+                  staggerChildren: ANIMATION.MOBILE_MENU.STAGGER.CLOSED_DELAY,
+                  staggerDirection: -1,
+                },
+              },
+            }}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            className="flex flex-col items-center justify-center h-full"
+          >
+            {menuItems.map((item) => (
+              <motion.li
+                key={item.href}
+                variants={itemVariants}
+                className="mb-8"
+              >
+                <Link
+                  href={item.href}
+                  className="text-3xl font-bold text-gray-800"
+                  onClick={closeMobileMenu}
+                >
+                  {item.label}
+                </Link>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </motion.nav>
+      )}
     </>
   );
 }
