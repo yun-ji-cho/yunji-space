@@ -23,7 +23,8 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const [project, setProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedWork, setSelectedWork] = useState<DetailedWork | null>(null);
-  const [ModalComponent, setModalComponent] = useState<ComponentType<any> | null>(null);
+  const [ModalComponent, setModalComponent] =
+    useState<ComponentType<any> | null>(null);
   const [isModalLoading, setIsModalLoading] = useState(false);
 
   // 색상 매핑 함수
@@ -43,7 +44,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
       lime: "border-lime-500",
       // 헤이데어 프로젝트에서 사용하는 추가 색상들
       emerald: "border-emerald-500",
-      violet: "border-violet-500", 
+      violet: "border-violet-500",
       amber: "border-amber-500",
       rose: "border-rose-500",
       fuchsia: "border-fuchsia-500",
@@ -75,7 +76,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const handleWorkClick = async (work: DetailedWork) => {
     setSelectedWork(work);
     setIsModalOpen(true);
-    
+
     // 모달이 아직 로드되지 않았다면 동적으로 로드
     if (!ModalComponent) {
       setIsModalLoading(true);
@@ -137,10 +138,10 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
           {/* Project Components */}
           <ProjectHeader project={project} />
-          
+
           <ProjectGallery project={project} />
-          
-          <ProjectWork 
+
+          <ProjectWork
             project={project}
             onWorkClick={handleWorkClick}
             getBorderColorClass={getBorderColorClass}
