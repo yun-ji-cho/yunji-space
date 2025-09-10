@@ -1,19 +1,14 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import Header from "@/components/Header";
-import Loading from "@/components/ui/Loading";
 import ProjectHeader from "@/components/project/ProjectHeader";
 import ProjectGallery from "@/components/project/ProjectGallery";
-import ProjectWork from "@/components/project/ProjectWork";
+import ProjectWorkWithModal from "@/components/project/ProjectWorkWithModal";
 import ProjectAchievements from "@/components/project/ProjectAchievements";
 import { getProjects } from "@/lib/projects";
-import { getBorderColorClass } from "@/utils/colorUtils";
-import { useLazyModal } from "@/hooks/useLazyModal";
-import type { Project, DetailedWork } from "@/types/project";
+import type { Project } from "@/types/project";
 
 interface ProjectDetailPageProps {
   params: {
@@ -21,61 +16,46 @@ interface ProjectDetailPageProps {
   };
 }
 
-export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const [project, setProject] = useState<Project | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedWork, setSelectedWork] = useState<DetailedWork | null>(null);
-  
-  // 모달 지연 로딩 훅 사용
-  const {
-    Component: ModalComponent,
-    isLoading: isModalLoading,
-    loadComponent: loadModal,
-  } = useLazyModal(() => import("@/components/WorkDetailModal"));
+export async function generateStaticParams() {
+  const projects = getProjects();
 
-  useEffect(() => {
-    const loadProject = () => {
-      try {
-        const projects = getProjects();
-        const foundProject = projects.find((p) => p.id === params.id);
+  return projects
+    .filter((project) => project.category === "main")
+    .map((project) => ({
+      id: project.id,
+    }));
+}
 
-        if (!foundProject || foundProject.category !== "main") {
-          notFound();
-        }
-
-        setProject(foundProject);
-      } catch (error) {
-        console.error("프로젝트 로딩 중 오류 발생:", error);
-        // Error Boundary가 처리할 수 있도록 에러를 다시 throw
-        throw error;
-      }
-    };
-
-    loadProject();
-  }, [params.id]);
-
-  const handleWorkClick = async (work: DetailedWork) => {
-    setSelectedWork(work);
-    setIsModalOpen(true);
-    
-    // 모달 컴포넌트 지연 로딩
-    await loadModal();
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedWork(null);
-  };
+// 동적 메타데이터 생성
+export async function generateMetadata({
+  params,
+}: ProjectDetailPageProps): Promise<Metadata> {
+  const projects = getProjects();
+  const project = projects.find((p) => p.id === params.id);
 
   if (!project) {
-    return (
-      <>
-        <Header />
-        <div className="min-h-screen bg-gradient-to-br from-sky-100 via-violet-50 to-blue-100 pt-24">
-          <Loading message="프로젝트를 불러오는 중..." />
-        </div>
-      </>
-    );
+    return {
+      title: "Project Not Found | Yunji Space",
+    };
+  }
+
+  return {
+    title: `${project.title} | Yunji Space`,
+    description: project.description,
+    openGraph: {
+      title: `${project.title} | Yunji Space`,
+      description: project.description,
+      type: "website",
+    },
+  };
+}
+
+export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+  const projects = getProjects();
+  const project = projects.find((p) => p.id === params.id);
+
+  if (!project || project.category !== "main") {
+    notFound();
   }
 
   return (
@@ -88,7 +68,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           <div className="mb-8">
             <Link
               href="/projects"
-              className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
+              className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
             >
               <svg
                 className="w-5 h-5 mr-2"
@@ -112,39 +92,11 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
           <ProjectGallery project={project} />
 
-          <ProjectWork
-            project={project}
-            onWorkClick={handleWorkClick}
-            getBorderColorClass={getBorderColorClass}
-          />
+          <ProjectWorkWithModal project={project} />
 
           <ProjectAchievements project={project} />
         </div>
       </div>
-
-      {/* Work Detail Modal */}
-      {isModalOpen && (
-        <>
-          {isModalLoading ? (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-xl p-8 shadow-xl">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                  <p className="text-gray-600">모달을 불러오는 중...</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ModalComponent && (
-              <ModalComponent
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                workDetail={selectedWork}
-              />
-            )
-          )}
-        </>
-      )}
     </>
   );
 }

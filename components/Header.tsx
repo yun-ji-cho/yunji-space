@@ -6,13 +6,11 @@ import * as motion from "motion/react-client";
 
 import { useScroll } from "@/hooks/useScroll";
 import useMobileMenu from "@/hooks/useMobileMenu";
-import { useIsDesktop } from "@/hooks/useMediaQuery";
 import { itemVariants, revealVariants } from "@/lib/animation";
 import { menuItems } from "@/data/menus";
 import { ACCESSIBILITY, ANIMATION, COLORS } from "@/constants";
 import {
   getHeaderBackgroundStyle,
-  logoGradientStyle,
   skipNavigationStyle,
   getNavLinkClassName,
   getHamburgerIconColor,
@@ -25,14 +23,9 @@ interface HeaderProps {
 
 export default function Header({ enableAnimation = false }: HeaderProps = {}) {
   const pathname = usePathname();
-  const isDesktop = useIsDesktop();
 
-  const {
-    toggleMobileMenu,
-    isMobileMenuOpen,
-    setIsMobileMenuOpen,
-    closeMobileMenu,
-  } = useMobileMenu();
+  const { toggleMobileMenu, isMobileMenuOpen, setIsMobileMenuOpen } =
+    useMobileMenu();
   const { isScrolled } = useScroll({
     onResize: (width) => {
       if (width >= ANIMATION.BREAKPOINTS.MD && isMobileMenuOpen) {
@@ -56,10 +49,14 @@ export default function Header({ enableAnimation = false }: HeaderProps = {}) {
       </a>
       <motion.header
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out"
-        initial={enableAnimation ? { y: -100, opacity: 0 } : { y: 0, opacity: 1 }}
+        initial={
+          enableAnimation ? { y: -100, opacity: 0 } : { y: 0, opacity: 1 }
+        }
         animate={{ y: 0, opacity: 1 }}
         transition={{
-          duration: enableAnimation ? ANIMATION.HOME_SEQUENCE.HEADER.DURATION : 0,
+          duration: enableAnimation
+            ? ANIMATION.HOME_SEQUENCE.HEADER.DURATION
+            : 0,
           ease: "easeOut",
           delay: enableAnimation ? ANIMATION.HOME_SEQUENCE.HEADER.DELAY : 0,
         }}
@@ -70,14 +67,7 @@ export default function Header({ enableAnimation = false }: HeaderProps = {}) {
             {/* Logo */}
             <Link
               href="/"
-              className="text-xl font-bold bg-gradient-to-r bg-clip-text text-transparent transition-all duration-300"
-              style={logoGradientStyle.default}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundImage = logoGradientStyle.hover.backgroundImage;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundImage = logoGradientStyle.default.backgroundImage;
-              }}
+              className="text-xl font-bold bg-gradient-to-r from-violet-500 to-sky-500 hover:from-violet-600 hover:to-sky-600 bg-clip-text text-transparent transition-all duration-300"
             >
               Yunji Space
             </Link>
@@ -177,12 +167,11 @@ export default function Header({ enableAnimation = false }: HeaderProps = {}) {
                 >
                   <Link
                     href={item.href}
-                    className={`text-3xl font-bold transition-colors duration-300 ${
+                    className={`text-3xl font-bold ${
                       isActive
-                        ? "bg-gradient-to-r from-violet-500 to-sky-500 bg-clip-text text-transparent"
-                        : "text-gray-800 hover:bg-gradient-to-r hover:from-violet-500 hover:to-sky-500 hover:bg-clip-text hover:text-transparent"
+                        ? "bg-gradient-to-r from-violet-600 to-sky-600 bg-clip-text text-transparent"
+                        : "text-gray-800 hover:text-violet-500 transition-colors duration-300"
                     }`}
-                    onClick={closeMobileMenu}
                   >
                     {item.label}
                   </Link>
