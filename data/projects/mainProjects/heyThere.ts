@@ -1,4 +1,4 @@
-import { Project } from "@/types/project";
+import type { Project } from "@/types/project";
 
 export const heyThereProject: Project = {
   id: "2",

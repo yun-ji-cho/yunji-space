@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import Header from "@/components/Header";
 
 interface PageLayoutProps {
@@ -12,7 +13,7 @@ export default function PageLayout({ children, className = "" }: PageLayoutProps
       <Header />
       <main 
         id="main-content" 
-        className={`min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-16 ${className}`}
+        className={`min-h-screen bg-gradient-to-br from-sky-100 via-violet-50 to-blue-100 pt-16 ${className}`}
       >
         {children}
       </main>

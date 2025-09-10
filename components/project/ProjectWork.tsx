@@ -1,4 +1,4 @@
-import { Project, DetailedWork } from "@/types/project";
+import type { Project, DetailedWork } from "@/types/project";
 
 interface ProjectWorkProps {
   project: Project;

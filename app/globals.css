@@ -25,3 +25,27 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* 타이핑 커서 깜빡임 애니메이션 */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 타이핑 커서 스타일 */
+.typing-cursor {
+  @apply inline-block w-0.5 bg-purple-600 ml-1;
+  animation: blink 1s infinite;
+  vertical-align: bottom;
+  transform: translateY(1px);
+}
+
+.typing-cursor-lg {
+  @apply h-10 lg:h-12;
+}

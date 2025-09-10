@@ -3,15 +3,17 @@
 import { useState, useEffect } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+
 import Header from "@/components/Header";
-import { ComponentType } from "react";
 import Loading from "@/components/ui/Loading";
 import ProjectHeader from "@/components/project/ProjectHeader";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectWork from "@/components/project/ProjectWork";
 import ProjectAchievements from "@/components/project/ProjectAchievements";
 import { getProjects } from "@/lib/projects";
-import { Project, DetailedWork } from "@/types/project";
+import { getBorderColorClass } from "@/utils/colorUtils";
+import { useLazyModal } from "@/hooks/useLazyModal";
+import type { Project, DetailedWork } from "@/types/project";
 
 interface ProjectDetailPageProps {
   params: {
@@ -23,33 +25,13 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const [project, setProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedWork, setSelectedWork] = useState<DetailedWork | null>(null);
-  const [ModalComponent, setModalComponent] = useState<ComponentType<any> | null>(null);
-  const [isModalLoading, setIsModalLoading] = useState(false);
-
-  // 색상 매핑 함수
-  const getBorderColorClass = (color: string) => {
-    const colorMap: { [key: string]: string } = {
-      blue: "border-blue-500",
-      green: "border-green-500",
-      purple: "border-purple-500",
-      red: "border-red-500",
-      yellow: "border-yellow-500",
-      indigo: "border-indigo-500",
-      pink: "border-pink-500",
-      gray: "border-gray-500",
-      orange: "border-orange-500",
-      teal: "border-teal-500",
-      cyan: "border-cyan-500",
-      lime: "border-lime-500",
-      // 헤이데어 프로젝트에서 사용하는 추가 색상들
-      emerald: "border-emerald-500",
-      violet: "border-violet-500", 
-      amber: "border-amber-500",
-      rose: "border-rose-500",
-      fuchsia: "border-fuchsia-500",
-    };
-    return colorMap[color] || "border-gray-500";
-  };
+  
+  // 모달 지연 로딩 훅 사용
+  const {
+    Component: ModalComponent,
+    isLoading: isModalLoading,
+    loadComponent: loadModal,
+  } = useLazyModal(() => import("@/components/WorkDetailModal"));
 
   useEffect(() => {
     const loadProject = () => {
@@ -76,18 +58,8 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     setSelectedWork(work);
     setIsModalOpen(true);
     
-    // 모달이 아직 로드되지 않았다면 동적으로 로드
-    if (!ModalComponent) {
-      setIsModalLoading(true);
-      try {
-        const { default: Modal } = await import("@/components/WorkDetailModal");
-        setModalComponent(() => Modal);
-      } catch (error) {
-        console.error("모달 로딩 중 오류:", error);
-      } finally {
-        setIsModalLoading(false);
-      }
-    }
+    // 모달 컴포넌트 지연 로딩
+    await loadModal();
   };
 
   const closeModal = () => {
@@ -99,7 +71,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-24">
+        <div className="min-h-screen bg-gradient-to-br from-sky-100 via-violet-50 to-blue-100 pt-24">
           <Loading message="프로젝트를 불러오는 중..." />
         </div>
       </>
@@ -110,7 +82,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     <>
       <Header />
 
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-blue-100 pt-16">
+      <div className="min-h-screen bg-gradient-to-br from-sky-100 via-violet-50 to-blue-100 pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Back Button */}
           <div className="mb-8">
@@ -137,10 +109,10 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
           {/* Project Components */}
           <ProjectHeader project={project} />
-          
+
           <ProjectGallery project={project} />
-          
-          <ProjectWork 
+
+          <ProjectWork
             project={project}
             onWorkClick={handleWorkClick}
             getBorderColorClass={getBorderColorClass}

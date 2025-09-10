@@ -80,12 +80,12 @@ export default function ProjectCard({
           {technologies.map((tech, index) => (
             <span
               key={index}
-              className={`px-2 py-1 rounded-full text-xs ${
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
                 category === "main"
-                  ? "bg-purple-100 text-purple-700"
+                  ? "bg-gradient-to-r from-violet-100 to-sky-100 text-violet-700"
                   : category === "side"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-700"
+                  ? "bg-gradient-to-r from-emerald-100 to-cyan-100 text-emerald-700"
+                  : "bg-gradient-to-r from-gray-100 to-slate-100 text-gray-700"
               }`}
             >
               {tech}

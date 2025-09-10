@@ -1,5 +1,5 @@
 import { projectsData } from "@/data/projects";
-import { Project } from "@/types/project";
+import type { Project } from "@/types/project";
 
 // 정적 프로젝트 데이터 반환 함수들
 export function getProjects(): Project[] {

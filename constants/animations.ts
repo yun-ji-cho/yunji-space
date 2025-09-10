@@ -3,6 +3,30 @@ export const ANIMATION = {
   // 스크롤 임계값
   SCROLL_THRESHOLD: 20,
 
+  // 홈페이지 진입 애니메이션 시퀀스
+  HOME_SEQUENCE: {
+    // 프로필 이미지 등장
+    PROFILE_IMAGE: {
+      DELAY: 0.3,
+      DURATION: 0.5,
+    },
+    // 제목 (타이핑) 등장
+    TITLE: {
+      DELAY: 0.9,
+      DURATION: 0.5,
+    },
+    // 컨텐츠 등장
+    CONTENT: {
+      DELAY: 2.5,
+      DURATION: 1,
+    },
+    // 헤더 등장
+    HEADER: {
+      DELAY: 2.6,
+      DURATION: 0.4,
+    },
+  },
+
   // 모바일 메뉴 애니메이션
   MOBILE_MENU: {
     // clipPath 원의 크기

@@ -1,11 +1,4 @@
-import {
-  Mail,
-  Clock,
-  Code,
-  Calendar,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { Mail, Clock, Phone } from "lucide-react";
 import PageLayout from "@/components/layout/PageLayout";
 
 export default function Contact() {
@@ -79,7 +72,7 @@ export default function Contact() {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                <span className="text-gray-700">최소 1개월 후 입사 가능</span>
+                <span className="text-gray-700">최소 3주 후 입사 가능</span>
               </div>
             </div>
           </div>
@@ -189,12 +182,12 @@ export default function Contact() {
                 </h3>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-3">
-                    <Phone className="w-4 h-4 text-green-600" />
-                    <span className="text-gray-700">전화</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
                     <Mail className="w-4 h-4 text-purple-600" />
                     <span className="text-gray-700">이메일</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Phone className="w-4 h-4 text-green-600" />
+                    <span className="text-gray-700">전화</span>
                   </div>
                 </div>
               </div>

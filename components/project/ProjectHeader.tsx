@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Project } from "@/types/project";
 import { ExternalLink, Github, Clock, Users } from "lucide-react";
+
 import { renderIcon } from "@/utils/iconUtils";
+import type { Project } from "@/types/project";
 
 interface ProjectHeaderProps {
   project: Project;
@@ -48,7 +49,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
         {project.technologies.map((tech, index) => (
           <span
             key={index}
-            className="px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-800 rounded-full text-sm font-medium"
+            className="px-3 py-1 bg-gradient-to-r from-violet-100 to-sky-100 text-violet-700 rounded-full text-sm font-medium"
           >
             {tech}
           </span>

@@ -1,5 +1,5 @@
-import { Project } from "@/types/project";
 import ProjectCard from "./ProjectCard";
+import type { Project } from "@/types/project";
 
 interface ProjectSectionProps {
   title: string;

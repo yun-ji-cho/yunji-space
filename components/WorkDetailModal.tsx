@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { DetailedWork } from "@/types/project";
+import type { DetailedWork } from "@/types/project";
 import {
   FileText,
   AlertTriangle,
