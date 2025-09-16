@@ -1,9 +1,17 @@
 // DetailedWork 타입 별도 정의
+export interface ProblemSolving {
+  challenge: string;
+  solution: string;
+}
+
 export interface DetailedWork {
   title: string;
   description: string;
   color: string;
-  // 모달용 상세 정보
+  // 새로운 구조
+  keyResults?: string[]; // 핵심 성과
+  problemSolving?: ProblemSolving[]; // challenge-solution 매칭
+  // 기존 필드 (deprecated - 추후 제거 예정)
   details?: string;
   challenges?: string[];
   solutions?: string[];
@@ -13,6 +21,7 @@ export interface DetailedWork {
     code: string;
     language: string;
   }[];
+  screenshots?: string[];
 }
 
 export interface Project {

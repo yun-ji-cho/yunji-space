@@ -2,12 +2,15 @@ import React, { useEffect, useRef } from "react";
 import type { DetailedWork } from "@/types/project";
 import {
   FileText,
-  AlertTriangle,
   Monitor,
   Lightbulb,
-  Info,
+  Target,
+  ArrowRight,
+  Rocket,
+  NotebookPen,
 } from "lucide-react";
 import StyledText from "./ui/StyledText";
+import ImageCarousel from "./ui/ImageCarousel";
 
 interface WorkDetailModalProps {
   isOpen: boolean;
@@ -127,10 +130,15 @@ export default function WorkDetailModal({
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="space-y-6">
+            {/* 스크린샷 */}
+            {workDetail.screenshots && workDetail.screenshots.length > 0 && (
+              <ImageCarousel images={workDetail.screenshots} />
+            )}
+
             {/* 작업 개요 */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                <Info className="mr-2 w-5 h-5 text-purple-600" />
+                <NotebookPen className="mr-2 w-5 h-5 text-purple-600" />
                 작업 개요
               </h3>
               <StyledText
@@ -140,66 +148,78 @@ export default function WorkDetailModal({
               />
             </div>
 
-            {/* 상세 내용 */}
-            {workDetail.details && (
+            {/* 핵심 성과 (새로운 구조) */}
+            {workDetail.keyResults && workDetail.keyResults.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <FileText className="mr-2 w-5 h-5 text-blue-600" />
-                  상세 내용
+                  <Target className="mr-2 w-5 h-5 text-green-600" />
+                  핵심 성과
                 </h3>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <StyledText
-                    text={workDetail.details}
-                    className="text-gray-700"
-                    animate={false}
-                  />
+                <ul className="space-y-2">
+                  {workDetail.keyResults.map((result, index) => (
+                    <li key={index} className="flex items-start text-gray-700">
+                      <span className="text-green-600 mr-2 font-bold">✓</span>
+                      <StyledText
+                        text={result}
+                        className="text-gray-700"
+                        animate={false}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* 도전 과제 및 해결 방안 (새로운 구조) */}
+            {workDetail.problemSolving &&
+              workDetail.problemSolving.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <Rocket className="mr-2 w-5 h-5 text-red-600" />
+                    도전 과제 및 해결 방안
+                  </h3>
+                  <div className="space-y-4">
+                    {workDetail.problemSolving.map((item, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-start gap-4">
+                          {/* 도전 과제 */}
+                          <div className="flex-1">
+                            <div className="mb-2">
+                              <span className="text-sm font-medium text-orange-600 uppercase tracking-wide">
+                                Challenge
+                              </span>
+                            </div>
+                            <StyledText
+                              text={item.challenge}
+                              className="text-gray-700"
+                              animate={false}
+                            />
+                          </div>
+
+                          {/* 화살표 */}
+                          <div className="flex items-center justify-center px-2 py-8">
+                            <ArrowRight className="w-6 h-6 text-gray-400" />
+                          </div>
+
+                          {/* 해결 방안 */}
+                          <div className="flex-1">
+                            <div className="mb-2">
+                              <span className="text-sm font-medium text-green-600 uppercase tracking-wide">
+                                Solution
+                              </span>
+                            </div>
+                            <StyledText
+                              text={item.solution}
+                              className="text-gray-700"
+                              animate={false}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-
-            {/* 도전 과제 */}
-            {workDetail.challenges && workDetail.challenges.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <AlertTriangle className="mr-2 w-5 h-5 text-orange-600" />
-                  도전 과제
-                </h3>
-                <ul className="space-y-2">
-                  {workDetail.challenges.map((challenge, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <span className="text-purple-600 mr-2">•</span>
-                      <StyledText
-                        text={challenge}
-                        className="text-gray-700"
-                        animate={false}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* 해결 방안 */}
-            {workDetail.solutions && workDetail.solutions.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                  <Lightbulb className="mr-2 w-5 h-5 text-yellow-600" />
-                  해결 방안
-                </h3>
-                <ul className="space-y-2">
-                  {workDetail.solutions.map((solution, index) => (
-                    <li key={index} className="flex items-start text-gray-700">
-                      <span className="text-green-600 mr-2">✓</span>
-                      <StyledText
-                        text={solution}
-                        className="text-gray-700"
-                        animate={false}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              )}
 
             {/* 코드 스니펫 */}
             {workDetail.codeSnippets && workDetail.codeSnippets.length > 0 && (
