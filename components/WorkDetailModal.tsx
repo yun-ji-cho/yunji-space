@@ -7,6 +7,7 @@ import {
   Lightbulb,
   Info,
 } from "lucide-react";
+import StyledText from "./ui/StyledText";
 
 interface WorkDetailModalProps {
   isOpen: boolean;
@@ -52,7 +53,7 @@ export default function WorkDetailModal({
       // Tab 키 포커스 트랩
       if (e.key === "Tab") {
         const focusableElements = modalRef.current?.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
 
         if (!focusableElements || focusableElements.length === 0) return;
@@ -132,9 +133,11 @@ export default function WorkDetailModal({
                 <Info className="mr-2 w-5 h-5 text-purple-600" />
                 작업 개요
               </h3>
-              <p className="text-gray-700 whitespace-pre-line">
-                {workDetail.description}
-              </p>
+              <StyledText
+                text={workDetail.description}
+                className="text-gray-700"
+                animate={false}
+              />
             </div>
 
             {/* 상세 내용 */}
@@ -145,9 +148,11 @@ export default function WorkDetailModal({
                   상세 내용
                 </h3>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-gray-700 whitespace-pre-line">
-                    {workDetail.details}
-                  </p>
+                  <StyledText
+                    text={workDetail.details}
+                    className="text-gray-700"
+                    animate={false}
+                  />
                 </div>
               </div>
             )}
@@ -163,7 +168,11 @@ export default function WorkDetailModal({
                   {workDetail.challenges.map((challenge, index) => (
                     <li key={index} className="flex items-start text-gray-700">
                       <span className="text-purple-600 mr-2">•</span>
-                      <span>{challenge}</span>
+                      <StyledText
+                        text={challenge}
+                        className="text-gray-700"
+                        animate={false}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -181,7 +190,11 @@ export default function WorkDetailModal({
                   {workDetail.solutions.map((solution, index) => (
                     <li key={index} className="flex items-start text-gray-700">
                       <span className="text-green-600 mr-2">✓</span>
-                      <span>{solution}</span>
+                      <StyledText
+                        text={solution}
+                        className="text-gray-700"
+                        animate={false}
+                      />
                     </li>
                   ))}
                 </ul>
@@ -201,9 +214,11 @@ export default function WorkDetailModal({
                       {snippet.title}
                     </h4>
                     {snippet.description && (
-                      <p className="text-sm text-gray-600 mb-2">
-                        {snippet.description}
-                      </p>
+                      <StyledText
+                        text={snippet.description}
+                        className="text-sm text-gray-600 mb-2"
+                        animate={false}
+                      />
                     )}
                     <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                       <code className="text-sm">{snippet.code}</code>

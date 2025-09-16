@@ -1,14 +1,21 @@
 import type { Project } from "@/types/project";
+import StyledText from "../ui/StyledText";
 
 interface ProjectAchievementsProps {
   project: Project;
 }
 
-export default function ProjectAchievements({ project }: ProjectAchievementsProps) {
+export default function ProjectAchievements({
+  project,
+}: ProjectAchievementsProps) {
   // achievements나 learnings가 모두 없으면 렌더링하지 않음
-  const hasAchievements = project.achievements && project.achievements.length > 0;
-  const hasLearnings = project.learnings && project.learnings.length > 0 && 
-    project.detailLevel && project.detailLevel >= 2;
+  const hasAchievements =
+    project.achievements && project.achievements.length > 0;
+  const hasLearnings =
+    project.learnings &&
+    project.learnings.length > 0 &&
+    project.detailLevel &&
+    project.detailLevel >= 2;
 
   if (!hasAchievements && !hasLearnings) {
     return null;
@@ -27,7 +34,11 @@ export default function ProjectAchievements({ project }: ProjectAchievementsProp
             {project.achievements!.map((achievement, index) => (
               <li key={index} className="flex items-start">
                 <span className="text-green-500 mr-3 mt-1">✓</span>
-                <span className="text-gray-700">{achievement}</span>
+                <StyledText
+                  text={achievement}
+                  className="text-gray-700"
+                  animate={false}
+                />
               </li>
             ))}
           </ul>
@@ -45,7 +56,11 @@ export default function ProjectAchievements({ project }: ProjectAchievementsProp
             {project.learnings!.map((learning, index) => (
               <li key={index} className="flex items-start">
                 <span className="text-blue-500 mr-3 mt-1">💡</span>
-                <span className="text-gray-700">{learning}</span>
+                <StyledText
+                  text={learning}
+                  className="text-gray-700"
+                  animate={false}
+                />
               </li>
             ))}
           </ul>

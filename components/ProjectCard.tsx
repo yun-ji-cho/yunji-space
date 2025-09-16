@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, Github } from "lucide-react";
 import { renderIcon } from "@/utils/iconUtils";
+import StyledText from "./ui/StyledText";
 
 interface ProjectCardProps {
   title: string;
@@ -75,7 +76,11 @@ export default function ProjectCard({
           )}
         </div>
         <h3 className={titleClasses}>{title}</h3>
-        <p className={descriptionClasses}>{description}</p>
+        <StyledText
+          text={description}
+          className={descriptionClasses}
+          animate={false}
+        />
         <div className="flex flex-wrap gap-2 mb-3">
           {technologies.map((tech, index) => (
             <span
@@ -84,8 +89,8 @@ export default function ProjectCard({
                 category === "main"
                   ? "bg-gradient-to-r from-violet-100 to-sky-100 text-violet-700"
                   : category === "side"
-                  ? "bg-gradient-to-r from-emerald-100 to-cyan-100 text-emerald-700"
-                  : "bg-gradient-to-r from-gray-100 to-slate-100 text-gray-700"
+                    ? "bg-gradient-to-r from-emerald-100 to-cyan-100 text-emerald-700"
+                    : "bg-gradient-to-r from-gray-100 to-slate-100 text-gray-700"
               }`}
             >
               {tech}
