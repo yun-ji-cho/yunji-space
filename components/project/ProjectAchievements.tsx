@@ -27,7 +27,6 @@ export default function ProjectAchievements({
       {hasAchievements && (
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="mr-2">🏆</span>
             주요 성과
           </h2>
           <ul className="space-y-3">
@@ -49,7 +48,6 @@ export default function ProjectAchievements({
       {hasLearnings && (
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="mr-2">📚</span>
             배운 점
           </h2>
           <ul className="space-y-3">

@@ -6,35 +6,35 @@ interface ImageCarouselProps {
   title?: string;
 }
 
-export default function ImageCarousel({
-  images,
-  title = "스크린샷",
-}: ImageCarouselProps) {
+export default function ImageCarousel({ images, title }: ImageCarouselProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!images || images.length === 0) return null;
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-        <Camera className="mr-2 w-5 h-5 text-blue-600" />
-        {title}
-      </h3>
+      {title && (
+        <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+          <Camera className="mr-2 w-5 h-5 text-blue-600" />
+          {title}
+        </h3>
+      )}
       <div className="relative bg-gray-100 rounded-lg overflow-hidden">
         {/* 이미지 */}
-        <div className="aspect-video w-full">
+        <div
+          className="relative w-full aspect-video"
+          role="tabpanel"
+          id={`image-panel-${currentImageIndex}`}
+          aria-label={`${images.length}개 중 ${currentImageIndex + 1}번째 이미지`}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={images[currentImageIndex]}
             alt={`Screenshot ${currentImageIndex + 1}`}
             className="w-full h-full object-contain"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.style.display = "none";
-            }}
           />
         </div>
 
-        {/* 캐러셀 컨트롤 (이미지가 2개 이상일 때만 표시) */}
         {images.length > 1 && (
           <>
             {/* 이전 버튼 */}
@@ -44,7 +44,7 @@ export default function ImageCarousel({
                   prev === 0 ? images.length - 1 : prev - 1,
                 )
               }
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50 transition-all"
               aria-label="이전 이미지"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -57,24 +57,31 @@ export default function ImageCarousel({
                   prev === images.length - 1 ? 0 : prev + 1,
                 )
               }
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50 transition-all"
               aria-label="다음 이미지"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
 
             {/* 인디케이터 */}
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <div
+              className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/30 px-3 py-1.5 rounded-full backdrop-blur-sm"
+              role="tablist"
+              aria-label="이미지 선택"
+            >
               {images.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentImageIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
+                  className={`h-2 rounded-full transition-all ${
                     currentImageIndex === index
-                      ? "bg-white"
-                      : "bg-white bg-opacity-50 hover:bg-opacity-75"
+                      ? "bg-white w-6"
+                      : "bg-white/60 w-2 hover:bg-white/80"
                   }`}
-                  aria-label={`이미지 ${index + 1}로 이동`}
+                  role="tab"
+                  aria-selected={currentImageIndex === index}
+                  aria-label={`${images.length}개 중 ${index + 1}번째 이미지`}
+                  aria-controls={`image-panel-${index}`}
                 />
               ))}
             </div>

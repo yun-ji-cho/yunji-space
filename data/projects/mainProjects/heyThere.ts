@@ -1,5 +1,6 @@
 import type { Project } from "@/types/project";
 import { heyThereDetailedWork } from "./heyThereDetailedWork";
+import { collectScreenshotsFromDetailedWork } from "@/lib/projects";
 
 export const heyThereProject: Project = {
   id: "2",
@@ -37,6 +38,7 @@ export const heyThereProject: Project = {
   hasDetailPage: true,
   detailLevel: 3, // 상세 레벨로 변경
   imagePath: "/images/projects/project_img_2.png",
+  screenshots: collectScreenshotsFromDetailedWork(heyThereDetailedWork),
   detailedWork: heyThereDetailedWork,
   technicalChallenges: [
     {
@@ -125,10 +127,5 @@ return { notifications, isConnected };
 };`,
       language: "typescript",
     },
-  ],
-  screenshots: [
-    "/images/projects/heythere-dashboard.png",
-    "/images/projects/heythere-booking.png",
-    "/images/projects/heythere-settings.png",
   ],
 };

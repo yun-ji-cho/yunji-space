@@ -1,5 +1,6 @@
-import Image from "next/image";
+"use client";
 
+import ImageCarousel from "@/components/ui/ImageCarousel";
 import type { Project } from "@/types/project";
 
 interface ProjectGalleryProps {
@@ -7,7 +8,15 @@ interface ProjectGalleryProps {
 }
 
 export default function ProjectGallery({ project }: ProjectGalleryProps) {
-  if (!project.imagePath) {
+  // 표시할 이미지 결정
+  const images = project.screenshots?.length
+    ? project.screenshots
+    : project.imagePath
+      ? [project.imagePath]
+      : [];
+
+  // 이미지가 없으면 렌더링하지 않음
+  if (images.length === 0) {
     return null;
   }
 
@@ -16,14 +25,7 @@ export default function ProjectGallery({ project }: ProjectGalleryProps) {
       <h2 className="text-2xl font-bold text-gray-900 mb-4">
         프로젝트 미리보기
       </h2>
-      <div className="relative w-full h-64 lg:h-96 rounded-lg overflow-hidden">
-        <Image
-          src={project.imagePath}
-          alt={project.title}
-          fill
-          className="object-cover"
-        />
-      </div>
+      <ImageCarousel images={images} />
     </div>
   );
 }

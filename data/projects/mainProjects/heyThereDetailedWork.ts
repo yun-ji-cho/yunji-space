@@ -7,35 +7,29 @@ export const heyThereDetailedWork: DetailedWork[] = [
       "여러 애플리케이션이 공존하는 복잡한 환경에서 지속 가능한 확장성을 확보하기 위해 모노레포 스타일 아키텍처와 이중 토큰 기반의 표준 인증 시스템을 설계하고 구축했습니다.",
     color: "blue",
     keyResults: [
-      "✅ **모노레포 스타일 아키텍처**: 여러 앱(고객용, 관리자용, 내부용)이 공통 코드(컴포넌트, 훅, 유틸)를 재사용하는 확장 가능한 구조를 설계했습니다.",
-      "✅ **이중 토큰 인증 시스템**: Access(15분)와 Refresh(7일) 토큰을 분리하고, Axios Interceptor로 자동 갱신 로직을 구현하여 보안과 사용자 편의성을 모두 확보했습니다.",
-      "✅ **표준화된 개발 환경**: 중앙화된 API 요청 레이어, 인증 기반 라우팅 시스템, 공통 UI 컴포넌트 라이브러리를 구축하여 개발 생산성과 코드 일관성을 높였습니다.",
-      "✅ **서버 상태 관리 최적화**: React Query를 도입하여 비동기 데이터 처리 로직을 표준화하고 캐싱을 통해 불필요한 API 호출을 최소화했습니다.",
+      "✅ **모노레포 스타일 아키텍처**: 여러 앱(고객용, 관리자용, 내부용)이 공통 코드(컴포넌트, 훅, 유틸)를 재사용하는 `확장 가능하고 응집도 높은 구조`를 설계했습니다.",
+      "✅ **이중 토큰 인증 시스템**: Access(15분)와 Refresh(7일) 토큰을 분리하고, `Axios Interceptor로 자동 갱신 로직을 구현`하여 `보안과 사용자 편의성`을 모두 확보했습니다.",
+      "✅ **표준화된 개발 환경**: `중앙화된 API 요청 레이어, 인증 기반 라우팅 시스템, 공통 UI 컴포넌트 라이브러리를 구축`하여 개발 생산성과 코드 일관성을 높였습니다.",
+      "✅ **서버 상태 관리 최적화**: `React Query를 도입`하여 비동기 데이터 처리 로직을 표준화하고 `캐싱을 통해 불필요한 API 호출을 최소화`했습니다.",
     ],
     problemSolving: [
       {
         challenge:
-          "프로젝트 규모 확장 시 여러 앱(고객용, 관리자용) 간에 권한 체계가 충돌하고 공통 코드의 관리가 어려워지는 문제",
+          "프로젝트 규모 확장 시 여러 앱(고객용, 관리자용) 간에 `권한 체계가 충돌`하고 `공통 코드의 관리가 파편화되`는 문제",
         solution:
-          "모노레포 스타일 아키텍처를 도입하여 앱별로 독립적인 토큰 키를 관리하도록 하고, 최상위 레벨에서 공유 컴포넌트와 훅을 재사용하여 코드 중복을 방지하고 확장성을 확보했습니다.",
+          "`모노레포(Monorepo) 아키텍처`를 도입하여 앱별로 독립적인 토큰 키를 관리하도록 하고, 최상위 레벨에서 공유 컴포넌트와 훅을 재사용하여 `코드 중복을 원천적으로 방지하고 유지보수 비용을 절감`하며 지속 가능한 확장성을 확보했습니다.",
       },
       {
         challenge:
-          "보안을 위해 토큰 만료 시간을 짧게 설정할 경우, 사용자가 로그인을 반복해야 하는 불편함으로 서비스 이용 흐름이 끊기는 문제",
+          "보안을 위해 Access Token의 만료 시간을 짧게 설정할 경우, 사용자가 로그인을 반복해야 하거나 작업 흐름이 끊기는 문제",
         solution:
-          "Access Token(단기)과 Refresh Token(장기)을 함께 사용하는 이중 토큰 아키텍처를 설계하고, Axios Interceptor를 활용해 토큰 만료 시 자동으로 재발급(Silent Refresh)하는 로직을 구현했습니다.",
+          "Axios Interceptor를 활용하여 API 응답이 `401 에러일 경우 자동으로 감지`하도록 설계했습니다. 감지된 에러에 대해 `Refresh Token을 사용해 백그라운드에서 조용히(Silently) 새로운 Access Token을 재발급`하고, 실패했던 요청을 사용자가 인지하지 못하는 사이에 재시도하는 로직을 구현하여 `끊김 없는 사용자 경험`을 제공했습니다.",
       },
       {
         challenge:
-          "프로젝트 초기에 아키텍처를 제대로 잡지 않으면 기능 수정이 다른 부분에 미치는 영향(Side Effect)을 예측하기 어려운 문제",
+          "프로젝트 초기에 아키텍처를 제대로 잡지 않으면 기능 수정이 `다른 부분에 미치는 영향(Side Effect)을 예측`하기 어려운 문제",
         solution:
-          "역할 기반 폴더 구조를 도입하고 Public/Private 라우트 가드를 통해 페이지 접근 권한을 명확히 분리하여, 코드의 응집도를 높이고 시스템의 안정성을 향상시켰습니다.",
-      },
-      {
-        challenge:
-          "서버에서 401 에러를 받기 전까지 클라이언트가 토큰 만료를 인지하지 못해 불필요한 네트워크 요청이 발생하는 비효율",
-        solution:
-          "JWT의 payload를 Base64 디코딩하여 클라이언트 단에서 토큰 만료 시간을 미리 계산하고, 만료 임박 시 선제적으로 토큰을 갱신하는 로직을 구현하여 네트워크 비용을 절감했습니다.",
+          "역할 기반 폴더 구조를 도입하고 `Public/Private 라우트 가드`를 통해 페이지 접근 권한을 명확히 분리하여, 코드의 응집도를 높이고 시스템의 안정성을 향상시켰습니다.",
       },
     ],
     codeSnippets: [
@@ -186,6 +180,12 @@ children: [
         language: "jsx",
       },
     ],
+    screenshots: [
+      "/images/projects/heythereDetail/heythere_2_1.png",
+      "/images/projects/heythereDetail/heythere_2_2.png",
+      "/images/projects/heythereDetail/heythere_2_3.png",
+      "/images/projects/heythereDetail/heythere_2_4.png",
+    ],
   },
   {
     title: "03. 확장 가능한 설정 페이지 아키텍처 설계 및 적용",
@@ -269,6 +269,16 @@ saveButtonGroupsMutate(
 };`,
         language: "typescript",
       },
+    ],
+    screenshots: [
+      "/images/projects/heythereDetail/heythere_3_0.png",
+      "/images/projects/heythereDetail/heythere_3_1.png",
+      "/images/projects/heythereDetail/heythere_3_2.png",
+      "/images/projects/heythereDetail/heythere_3_3.png",
+      "/images/projects/heythereDetail/heythere_3_4.png",
+      "/images/projects/heythereDetail/heythere_3_5.png",
+      "/images/projects/heythereDetail/heythere_3_6.png",
+      "/images/projects/heythereDetail/heythere_3_7.png",
     ],
   },
   {
@@ -355,5 +365,6 @@ MOBILE: \`\${t('dashboard.mobile')}\`
         language: "typescript",
       },
     ],
+    screenshots: ["/images/projects/heythereDetail/heythere_4_1.png"],
   },
 ];

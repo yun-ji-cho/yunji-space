@@ -1,5 +1,6 @@
 import type { Project } from "@/types/project";
 import { sangdamCallDetailedWork } from "./sangdamCallDetailedWork";
+import { collectScreenshotsFromDetailedWork } from "@/lib/projects";
 
 export const sangdamCallProject: Project = {
   id: "1",
@@ -35,6 +36,7 @@ export const sangdamCallProject: Project = {
   hasDetailPage: true,
   detailLevel: 3, // 가장 상세한 레벨
   imagePath: "/images/projects/project_img_1.png",
+  screenshots: collectScreenshotsFromDetailedWork(sangdamCallDetailedWork),
   detailedWork: sangdamCallDetailedWork,
   technicalChallenges: [
     {
@@ -118,10 +120,5 @@ return { user, loading, login };
 };`,
       language: "typescript",
     },
-  ],
-  screenshots: [
-    "/images/projects/sangdam-dashboard.png",
-    "/images/projects/sangdam-login.png",
-    "/images/projects/sangdam-settings.png",
   ],
 };

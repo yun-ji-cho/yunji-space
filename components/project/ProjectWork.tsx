@@ -24,7 +24,6 @@ export default function ProjectWork({
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg mb-8">
       <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-        <span className="mr-2">📋</span>
         담당 업무 상세
       </h2>
 

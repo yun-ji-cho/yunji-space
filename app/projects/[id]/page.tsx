@@ -1,6 +1,6 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import Header from "@/components/Header";
 import ProjectHeader from "@/components/project/ProjectHeader";
@@ -8,7 +8,6 @@ import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectWorkWithModal from "@/components/project/ProjectWorkWithModal";
 import ProjectAchievements from "@/components/project/ProjectAchievements";
 import { getProjects } from "@/lib/projects";
-import type { Project } from "@/types/project";
 
 interface ProjectDetailPageProps {
   params: {

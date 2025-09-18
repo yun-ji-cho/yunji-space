@@ -68,7 +68,7 @@ export default function WorkDetailModal({
           <div className="space-y-6">
             {/* 스크린샷 */}
             {workDetail.screenshots && workDetail.screenshots.length > 0 && (
-              <ImageCarousel images={workDetail.screenshots} />
+              <ImageCarousel images={workDetail.screenshots} title="스크린샷" />
             )}
 
             {/* 작업 개요 */}
