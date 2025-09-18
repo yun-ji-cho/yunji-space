@@ -1,16 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import type { DetailedWork } from "@/types/project";
-import {
-  FileText,
-  Monitor,
-  Lightbulb,
-  Target,
-  ArrowRight,
-  Rocket,
-  NotebookPen,
-} from "lucide-react";
+import { Monitor, Target, ArrowRight, Rocket, NotebookPen } from "lucide-react";
 import StyledText from "./ui/StyledText";
 import ImageCarousel from "./ui/ImageCarousel";
+import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 
 interface WorkDetailModalProps {
   isOpen: boolean;
@@ -23,75 +16,18 @@ export default function WorkDetailModal({
   onClose,
   workDetail,
 }: WorkDetailModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-  // 모달이 열렸을 때 배경 스크롤 방지 및 포커스 관리
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      // 모달이 열리면 닫기 버튼에 포커스
-      closeButtonRef.current?.focus();
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    // 컴포넌트가 언마운트될 때 스크롤 복원
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // ESC 키와 포커스 트랩 처리
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // ESC 키로 모달 닫기
-      if (e.key === "Escape") {
-        onClose();
-        return;
-      }
-
-      // Tab 키 포커스 트랩
-      if (e.key === "Tab") {
-        const focusableElements = modalRef.current?.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        );
-
-        if (!focusableElements || focusableElements.length === 0) return;
-
-        const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[
-          focusableElements.length - 1
-        ] as HTMLElement;
-
-        // Shift + Tab: 첫 번째 요소에서 마지막으로
-        if (e.shiftKey && document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement.focus();
-        }
-        // Tab: 마지막 요소에서 첫 번째로
-        else if (!e.shiftKey && document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+  const { modalRef, closeButtonRef, handleBackdropClick } =
+    useModalAccessibility({
+      isOpen,
+      onClose,
+    });
 
   if (!isOpen || !workDetail) return null;
 
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={(e) => {
-        // 배경 클릭 시 모달 닫기
-        if (e.target === e.currentTarget) onClose();
-      }}
+      onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -148,7 +84,7 @@ export default function WorkDetailModal({
               />
             </div>
 
-            {/* 핵심 성과 (새로운 구조) */}
+            {/* 핵심 성과 */}
             {workDetail.keyResults && workDetail.keyResults.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
@@ -170,7 +106,7 @@ export default function WorkDetailModal({
               </div>
             )}
 
-            {/* 도전 과제 및 해결 방안 (새로운 구조) */}
+            {/* 도전 과제 및 해결 방안 */}
             {workDetail.problemSolving &&
               workDetail.problemSolving.length > 0 && (
                 <div>

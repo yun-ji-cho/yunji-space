@@ -13,7 +13,7 @@ interface UseLazyModalReturn<T> {
  * @returns 모달 컴포넌트와 로딩 상태, 로드 함수
  */
 export function useLazyModal<T = any>(
-  importFn: () => Promise<{ default: ComponentType<T> }>
+  importFn: () => Promise<{ default: ComponentType<T> }>,
 ): UseLazyModalReturn<T> {
   const [Component, setComponent] = useState<ComponentType<T> | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +24,8 @@ export function useLazyModal<T = any>(
 
     setIsLoading(true);
     try {
-      const module = await importFn();
-      setComponent(() => module.default);
+      const importedModule = await importFn();
+      setComponent(() => importedModule.default);
     } catch (error) {
       console.error("Failed to load modal component:", error);
       throw error;

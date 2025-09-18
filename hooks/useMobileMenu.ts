@@ -25,8 +25,8 @@ export default function useMobileMenu() {
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return {
-    toggleMobileMenu,
     isMobileMenuOpen,
+    toggleMobileMenu,
     setIsMobileMenuOpen,
     closeMobileMenu,
   };

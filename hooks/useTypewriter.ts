@@ -9,7 +9,7 @@ interface UseTypewriterOptions {
 
 export function useTypewriter(
   texts: string[],
-  options: UseTypewriterOptions = {}
+  options: UseTypewriterOptions = {},
 ) {
   const { speed = 100, delay = 1000 } = options;
 
@@ -35,7 +35,7 @@ export function useTypewriter(
       if (currentText.length < currentFullText.length) {
         setCurrentText(currentFullText.slice(0, currentText.length + 1));
       }
-      // 타이핑 완료되면 그대로 멈춤 (삭제하지 않음)
+      // 타이핑 완료되면 그대로 멈춤
     }, speed);
 
     return () => clearTimeout(timer);

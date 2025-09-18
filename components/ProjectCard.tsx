@@ -1,8 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, Github } from "lucide-react";
-import { renderIcon } from "@/utils/iconUtils";
 import StyledText from "./ui/StyledText";
+import ProjectIcon from "./project/ProjectIcon";
+import ProjectTechnologies from "./project/ProjectTechnologies";
+import ProjectLinks from "./project/ProjectLinks";
+import {
+  getCardClasses,
+  getTitleClasses,
+  getDescriptionClasses,
+} from "./project/ProjectCardStyles";
 
 interface ProjectCardProps {
   title: string;
@@ -33,97 +38,33 @@ export default function ProjectCard({
   hasDetailPage = false,
   imagePath,
 }: ProjectCardProps) {
-  const cardClasses = isCompact
-    ? `bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md ${
-        category === "main" ? "hover:shadow-lg" : ""
-      } transition-shadow ${category === "other" ? "flex flex-col" : ""}`
-    : `bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg ${
-        category === "main" ? "hover:shadow-xl" : ""
-      } transition-shadow ${category === "other" ? "flex flex-col" : ""}`;
-
-  const iconClasses = isCompact
-    ? "w-full h-32 rounded-lg mb-3 flex items-center justify-center"
-    : "w-full h-48 rounded-lg mb-4 flex items-center justify-center";
-
-  const titleClasses = isCompact
-    ? "text-lg font-semibold text-gray-900 mb-2"
-    : "text-xl font-semibold text-gray-900 mb-2";
-
-  const descriptionClasses = isCompact
-    ? "text-gray-600 mb-3 text-sm"
-    : "text-gray-600 mb-4";
+  const cardClasses = getCardClasses({ isCompact, category });
+  const titleClasses = getTitleClasses(isCompact);
+  const descriptionClasses = getDescriptionClasses(isCompact);
 
   const CardContent = () => (
     <div className={`flex flex-col ${category === "other" ? "h-full" : ""}`}>
       <div className={category === "other" ? "flex-1" : ""}>
-        <div className={`${iconClasses} ${gradient} relative overflow-hidden`}>
-          {imagePath ? (
-            <Image
-              src={imagePath}
-              alt={title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          ) : (
-            <div className={isCompact ? "text-3xl" : "text-4xl"}>
-              {renderIcon({
-                name: icon,
-                size: isCompact ? 32 : 48,
-                className: "text-white",
-              })}
-            </div>
-          )}
-        </div>
+        <ProjectIcon
+          title={title}
+          icon={icon}
+          gradient={gradient}
+          imagePath={imagePath}
+          isCompact={isCompact}
+        />
+
         <h3 className={titleClasses}>{title}</h3>
+
         <StyledText
           text={description}
           className={descriptionClasses}
           animate={false}
         />
-        <div className="flex flex-wrap gap-2 mb-3">
-          {technologies.map((tech, index) => (
-            <span
-              key={index}
-              className={`px-2 py-1 rounded-full text-xs font-medium ${
-                category === "main"
-                  ? "bg-gradient-to-r from-violet-100 to-sky-100 text-violet-700"
-                  : category === "side"
-                    ? "bg-gradient-to-r from-emerald-100 to-cyan-100 text-emerald-700"
-                    : "bg-gradient-to-r from-gray-100 to-slate-100 text-gray-700"
-              }`}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+
+        <ProjectTechnologies technologies={technologies} category={category} />
       </div>
-      {(link || github) && (
-        <div className="flex gap-2 mt-auto">
-          {link && (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors duration-200 flex items-center"
-            >
-              <ExternalLink size={16} className="mr-1" />
-              {category === "side" ? "프로젝트 소개" : "사이트 보기"}
-            </a>
-          )}
-          {github && (
-            <a
-              href={github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors duration-200 flex items-center"
-            >
-              <Github size={16} className="mr-1" />
-              GitHub
-            </a>
-          )}
-        </div>
-      )}
+
+      <ProjectLinks link={link} github={github} category={category} />
     </div>
   );
 
